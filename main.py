@@ -193,23 +193,21 @@ def main():
         # if char_count >= config.MIN_SCRIPT_LENGTH:
         #     script_analysis = display_script_analysis(script_input)
     
-    # Tone and format selection
+    # Tone and format selection (using original options for now)
     col1, col2 = st.columns(2)
     
     with col1:
-        default_tone = template_data['tone'] if template_data else "hook"
         tone = st.selectbox(
             "Marketing Psychology:",
-            ["hook", "problem", "solution", "social_proof", "urgency", "transformation", "curiosity", "authority"],
-            index=["hook", "problem", "solution", "social_proof", "urgency", "transformation", "curiosity", "authority"].index(default_tone)
+            ["inspiring", "urgent", "calm", "funny", "serious", "emotional", "uplifting", "mysterious"],
+            index=0
         )
     
     with col2:
-        default_format = template_data['format'] if template_data else "ugc_style"
         format_type = st.selectbox(
             "Ad Format:",
-            ["ugc_style", "testimonial", "demo_style", "influencer_style", "news_style", "comparison"],
-            index=["ugc_style", "testimonial", "demo_style", "influencer_style", "news_style", "comparison"].index(default_format)
+            ["UGC", "talking_head", "testimonial"],
+            index=0
         )
     
     # Pro tip (simplified)
