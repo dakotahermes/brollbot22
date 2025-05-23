@@ -9,8 +9,9 @@ from typing import List
 from models import AdScriptInput, BrollPrompt
 from agents import create_agent
 from config import Config
-from utils.analytics import AnalyticsUtils, display_script_analysis
-from utils.workflow import WorkflowManager, PromptOptimizer, ProjectManager, TemplateManager
+# Temporarily comment out utils imports until we create the files
+# from utils.analytics import AnalyticsUtils, display_script_analysis
+# from utils.workflow import WorkflowManager, PromptOptimizer, ProjectManager, TemplateManager
 
 # Load environment variables
 load_dotenv()
@@ -144,8 +145,9 @@ def main():
     </style>
     """, unsafe_allow_html=True)
     
-    # Initialize session state
-    WorkflowManager.initialize_session_state()
+    # Initialize session state (simplified for now)
+    if 'workflow_history' not in st.session_state:
+        st.session_state.workflow_history = []
     
     # Initialize OpenAI client
     client = initialize_openai_client()
@@ -168,26 +170,27 @@ def main():
         aspect_ratio = st.selectbox("Aspect Ratio", ["9:16", "16:9", "1:1", "4:5"], index=0,
                                   help="9:16 recommended for mobile-first platforms")
         
+        # Simplified sidebar for now
         # Project management
-        current_project = ProjectManager.create_project_interface()
+        # current_project = ProjectManager.create_project_interface()
         
         # Workflow history
-        st.markdown("### 📋 Campaign History")
-        loaded_workflow = WorkflowManager.display_workflow_history()
+        # st.markdown("### 📋 Campaign History")
+        # loaded_workflow = WorkflowManager.display_workflow_history()
         
         # Project contents
-        loaded_project_data = ProjectManager.display_project_contents(current_project)
+        # loaded_project_data = ProjectManager.display_project_contents(current_project)
         
         # Export all workflows
-        if st.session_state.workflow_history:
-            export_data = WorkflowManager.export_all_workflows()
-            if export_data:
-                st.download_button(
-                    "📦 Export All Campaigns",
-                    export_data,
-                    "adclass_campaigns.json",
-                    "application/json"
-                )
+        # if st.session_state.workflow_history:
+        #     export_data = WorkflowManager.export_all_workflows()
+        #     if export_data:
+        #         st.download_button(
+        #             "📦 Export All Campaigns",
+        #             export_data,
+        #             "adclass_campaigns.json",
+        #             "application/json"
+        #         )
         
         st.markdown("### 🎯 About AdClass")
         st.markdown("""
@@ -205,18 +208,19 @@ def main():
         st.markdown("**Need expert ad management?**")
         st.markdown("[📞 Book a Strategy Call](https://www.adclass.com)")
     
-    # Check for loaded workflow data
-    if loaded_workflow:
-        st.info("✅ Loaded campaign from history!")
+    # Check for loaded workflow data (simplified)
+    # if loaded_workflow:
+    #     st.info("✅ Loaded campaign from history!")
     
-    if loaded_project_data:
-        st.info(f"✅ Loaded campaign from project: {current_project}")
+    # if loaded_project_data:
+    #     st.info(f"✅ Loaded campaign from project: {current_project}")
     
     # Main input section
     st.markdown("## 📝 Ad Script Input")
     
-    # Template selection
-    template_data = TemplateManager.display_templates()
+    # Template selection (simplified for now)
+    # template_data = TemplateManager.display_templates()
+    template_data = None
     
     # Script input with potential template pre-fill
     default_script = template_data['script'] if template_data else ""
@@ -234,9 +238,9 @@ def main():
         color = "green" if char_count >= config.MIN_SCRIPT_LENGTH else "orange"
         st.markdown(f"<span style='color: {color}'>Characters: {char_count}</span>", unsafe_allow_html=True)
         
-        # Display script analysis
-        if char_count >= config.MIN_SCRIPT_LENGTH:
-            script_analysis = display_script_analysis(script_input)
+        # Display script analysis (simplified for now)
+        # if char_count >= config.MIN_SCRIPT_LENGTH:
+        #     script_analysis = display_script_analysis(script_input)
     
     # Tone and format selection
     col1, col2 = st.columns(2)
@@ -301,29 +305,29 @@ def main():
                     st.warning("No high-converting B-roll prompts could be generated. Consider simplifying your script for better AI video generation.")
                     return
             
-            # Save workflow to history
-            analytics = AnalyticsUtils.analyze_prompts(broll_prompts)
-            WorkflowManager.save_workflow(ad_input, broll_prompts, analytics)
+            # Save workflow to history (simplified)
+            # analytics = AnalyticsUtils.analyze_prompts(broll_prompts)
+            # WorkflowManager.save_workflow(ad_input, broll_prompts, analytics)
             
-            # Save to current project
-            ProjectManager.save_to_project(current_project, {
-                'script_input': ad_input.dict(),
-                'prompts': [p.dict() for p in broll_prompts],
-                'analytics': analytics
-            })
+            # Save to current project (simplified)
+            # ProjectManager.save_to_project(current_project, {
+            #     'script_input': ad_input.dict(),
+            #     'prompts': [p.dict() for p in broll_prompts],
+            #     'analytics': analytics
+            # })
             
             # Display results
             st.success(f"✅ Generated {len(broll_prompts)} conversion-optimized B-roll suggestions!")
             
-            # Generate and display analytics
-            AnalyticsUtils.display_analytics_dashboard(analytics)
+            # Generate and display analytics (simplified for now)
+            # AnalyticsUtils.display_analytics_dashboard(analytics)
             
-            # Display insights
-            insights = AnalyticsUtils.generate_insights(analytics)
-            if insights:
-                st.markdown("## 💡 AdClass Expert Insights")
-                for insight in insights:
-                    st.info(insight)
+            # Display insights (simplified for now)
+            # insights = AnalyticsUtils.generate_insights(analytics)
+            # if insights:
+            #     st.markdown("## 💡 AdClass Expert Insights")
+            #     for insight in insights:
+            #         st.info(insight)
             
             # Results section
             st.markdown("## 🎥 Your High-Converting B-Roll Prompts")
@@ -347,23 +351,23 @@ def main():
                             st.metric("AI Feasibility", f"{confidence_pct}%")
                         st.markdown('</div>', unsafe_allow_html=True)
             
-            # Prompt optimization suggestions
-            suggestions = PromptOptimizer.suggest_prompt_improvements(broll_prompts)
-            if suggestions:
-                st.markdown("## 🔧 Optimization Recommendations")
-                for suggestion in suggestions:
-                    st.info(suggestion)
+            # Prompt optimization suggestions (simplified for now)
+            # suggestions = PromptOptimizer.suggest_prompt_improvements(broll_prompts)
+            # if suggestions:
+            #     st.markdown("## 🔧 Optimization Recommendations")
+            #     for suggestion in suggestions:
+            #         st.info(suggestion)
             
-            # Advanced features toggle
-            show_advanced = st.checkbox("🛠️ Show Advanced Customization", value=False)
+            # Advanced features toggle (simplified for now)
+            # show_advanced = st.checkbox("🛠️ Show Advanced Customization", value=False)
             
-            if show_advanced:
-                # Prompt customization interface
-                customized_prompts = PromptOptimizer.customize_prompts_interface(broll_prompts)
+            # if show_advanced:
+            #     # Prompt customization interface
+            #     customized_prompts = PromptOptimizer.customize_prompts_interface(broll_prompts)
                 
-                if st.button("📥 Apply Customizations"):
-                    broll_prompts = customized_prompts
-                    st.success("✅ Updated prompts with your customizations!")
+            #     if st.button("📥 Apply Customizations"):
+            #         broll_prompts = customized_prompts
+            #         st.success("✅ Updated prompts with your customizations!")
             
             # Export section
             st.markdown("## 📥 Export Your Campaign Assets")
